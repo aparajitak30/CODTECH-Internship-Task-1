@@ -1,0 +1,191 @@
+/*html*/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute To-Do List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Cute To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <button id="addTask">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+/*css*/
+body {
+    font-family: 'Comic Neue', cursive;
+    background-image: url('https://i.pinimg.com/564x/82/88/88/8288887bd3605be98617f7bcbbf5ec01.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Comic Neue', cursive;
+    text-align: center;
+    color: #ff69b4;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+#taskInput {
+    font-family: 'Comic Neue', cursive;
+    width: calc(100% - 24px);
+    padding: 10px;
+    border: 2px solid #ff69b4;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 1.1em;
+}
+
+#addTask {
+    font-family: 'Comic Neue', cursive;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 1.1em;
+}
+
+#addTask:hover {
+    background-color: #ff1493;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.task-text {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.delete-btn {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 0.9em;
+}
+
+.task-checkbox {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff69b4;
+    border-radius: 3px;
+    outline: none;
+    transition: 0.2s all linear;
+    position: relative;
+    cursor: pointer;
+}
+
+.task-checkbox:checked {
+    background-color: #ff69b4;
+}
+
+.task-checkbox:checked:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    left: 3px;
+    color: white;
+}
+
+
+/*javascript*/
+
+document.addEventListener('DOMContentLoaded', function() {
+    const taskInput = document.getElementById('taskInput');
+    const addTaskButton = document.getElementById('addTask');
+    const taskList = document.getElementById('taskList');
+
+    addTaskButton.addEventListener('click', addTask);
+    taskInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addTask();
+        }
+    });
+
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText !== '') {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">${taskText}</span>
+                <button class="delete-btn">Delete</button>
+            `;
+            taskList.appendChild(li);
+            taskInput.value = '';
+
+            const checkbox = li.querySelector('.task-checkbox');
+            const taskTextSpan = li.querySelector('.task-text');
+            
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    taskTextSpan.classList.add('completed');
+                } else {
+                    taskTextSpan.classList.remove('completed');
+                }
+            });
+
+            li.querySelector('.delete-btn').addEventListener('click', function() {
+                li.remove();
+            });
+        }
+    }
+});

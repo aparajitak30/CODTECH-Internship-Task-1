@@ -1,5 +1,4 @@
 # CODTECH-Internship-Task-1
-# CODTECH-internship-Task1
 
 **Name:** Aparajita Kharte  
 **Company:** CODTECH IT SOLUTIONS  
